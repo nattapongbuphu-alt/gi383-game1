@@ -18,17 +18,18 @@ public class FireProjectile : MonoBehaviour
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Ghost"))
+        if (collision.CompareTag("Ghost"))
         {
-            Ghost ghost = other.GetComponent<Ghost>();
+            GhostHealth ghost = collision.GetComponent<GhostHealth>();
             if (ghost != null)
             {
-                ghost.Stun(stunTime); // 👻 โดนสตั้น
+                ghost.TakeDamage(1f); // ดาเมจต่อนัด
             }
 
-            Destroy(gameObject); // กระสุนหาย
+            Destroy(gameObject); // ลูกไฟหาย
         }
     }
+
 }

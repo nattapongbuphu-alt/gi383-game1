@@ -1,32 +1,57 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject firePrefab;
+    [Header("Shoot Settings")]
+    public GameObject fireballPrefab;
     public Transform firePoint;
-    public PlayerLight playerLight;
+    public float bulletSpeed = 10f;
     public float lightCost = 0.5f;
+
+    private PlayerLight playerLight;
+
+    void Start()
+    {
+        playerLight = GetComponent<PlayerLight>();
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // ��ԡ����
+        if (Input.GetMouseButtonDown(0))
         {
-            if (playerLight.currentRadius > playerLight.minRadius + lightCost)
-            {
-                ShootToMouse();
-                playerLight.UseLight(lightCost);
-            }
+            TryShoot();
         }
     }
 
-    void ShootToMouse()
+    void TryShoot()
     {
+        // 🔦 เช็กแสงก่อนยิง
+        if (!playerLight.HasEnoughLight(lightCost))
+        {
+            return; // แสงไม่พอ ยิงไม่ได้
+        }
+
+        Shoot();
+        playerLight.TakeDamage(lightCost);
+    }
+
+    void Shoot()
+    {
+        // ตำแหน่งเมาส์ในโลก
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouseWorldPos.z = 0;
 
-        Vector2 direction = mouseWorldPos - firePoint.position;
+        // ทิศทางยิง (2D ล้วน)
+        Vector2 direction = (mouseWorldPos - firePoint.position);
 
-        GameObject fire = Instantiate(firePrefab, firePoint.position, Quaternion.identity);
-        fire.GetComponent<FireProjectile>().SetDirection(direction);
+        // สร้างลูกไฟ
+        GameObject fireball = Instantiate(
+            fireballPrefab,
+            firePoint.position,
+            Quaternion.identity
+        );
+
+        // ยิง
+        Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

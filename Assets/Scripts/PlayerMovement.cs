@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 4f;
-    private Rigidbody2D rb;
-    private Vector2 move;
+    public float speed = 5f;
+
+    Rigidbody2D rb;
+    Vector2 move;
 
     void Awake()
     {
@@ -15,11 +16,11 @@ public class PlayerMovement : MonoBehaviour
     {
         move.x = Input.GetAxisRaw("Horizontal");
         move.y = Input.GetAxisRaw("Vertical");
-        move.Normalize();
+        move = move.normalized;
     }
 
     void FixedUpdate()
     {
-        rb.linearVelocity = move * speed;
+        rb.MovePosition(rb.position + move * speed * Time.fixedDeltaTime);
     }
 }

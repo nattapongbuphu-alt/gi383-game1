@@ -1,0 +1,35 @@
+﻿using UnityEngine;
+
+public class FireOrbSpawner : MonoBehaviour
+{
+    public GameObject fireOrbPrefab;
+    public Collider2D spawnArea;
+    public float spawnInterval = 3f;
+
+    public LayerMask wallLayer;
+    public float checkRadius = 0.3f;
+
+    void Start()
+    {
+        InvokeRepeating(nameof(TrySpawn), 1f, spawnInterval);
+    }
+
+    void TrySpawn()
+    {
+        Vector2 spawnPos = GetRandomPointInBounds(spawnArea.bounds);
+
+        // ❌ ถ้าตำแหน่งนี้ทับกำแพง → ไม่เกิด
+        if (Physics2D.OverlapCircle(spawnPos, checkRadius, wallLayer))
+            return;
+
+        Instantiate(fireOrbPrefab, spawnPos, Quaternion.identity);
+    }
+
+    Vector2 GetRandomPointInBounds(Bounds bounds)
+    {
+        return new Vector2(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y)
+        );
+    }
+}
