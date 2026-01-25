@@ -4,7 +4,9 @@ public class FireProjectile : MonoBehaviour
 {
     public float speed = 8f;
     public float stunTime = 2f;
+    public float lifeTime = 5f;
     private Vector2 direction;
+    private float timeAlive = 0f;
 
     public void SetDirection(Vector2 dir)
     {
@@ -16,6 +18,13 @@ public class FireProjectile : MonoBehaviour
     void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        
+        // นับเวลาและทำลายลูกไฟหลังจากเวลาที่กำหนด
+        timeAlive += Time.deltaTime;
+        if (timeAlive >= lifeTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

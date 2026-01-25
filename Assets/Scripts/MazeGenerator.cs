@@ -26,16 +26,27 @@ public class MazeGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
                 maze[x, y] = 1;
 
+        // เพิ่มขอบกั้นด้านบน
+        for (int x = 0; x < width; x++)
+            maze[x, height - 1] = 1;
+
+        // เพิ่มขอบกั้นด้านขวา
+        for (int y = 0; y < height; y++)
+            maze[width - 1, y] = 1;
+
         // เริ่มขุดจาก (1,1)
         Carve(1, 1);
     }
 
     void Carve(int x, int y)
     {
-        int[] dirX = { 0, 0, 2, -2 };
-        int[] dirY = { 2, -2, 0, 0 };
+        int[] dirX = { 0, 0, 3, -3 };
+        int[] dirY = { 3, -3, 0, 0 };
 
         maze[x, y] = 0;
+        if (x + 1 < width) maze[x + 1, y] = 0;
+        if (y + 1 < height) maze[x, y + 1] = 0;
+        if (x + 1 < width && y + 1 < height) maze[x + 1, y + 1] = 0;
 
         List<int> dirs = new List<int> { 0, 1, 2, 3 };
         for (int i = 0; i < dirs.Count; i++)
@@ -53,7 +64,21 @@ public class MazeGenerator : MonoBehaviour
             {
                 if (maze[nx, ny] == 1)
                 {
-                    maze[x + dirX[i] / 2, y + dirY[i] / 2] = 0;
+                    // ขุดทางกว้าง 2 ช่อง
+                    int stepX = dirX[i] / 3;
+                    int stepY = dirY[i] / 3;
+                    maze[x + stepX, y + stepY] = 0;
+                    maze[x + stepX * 2, y + stepY * 2] = 0;
+                    if (stepX != 0)
+                    {
+                        maze[x + stepX, y + stepY + 1] = 0;
+                        maze[x + stepX * 2, y + stepY * 2 + 1] = 0;
+                    }
+                    else
+                    {
+                        maze[x + stepX + 1, y + stepY] = 0;
+                        maze[x + stepX * 2 + 1, y + stepY * 2] = 0;
+                    }
                     Carve(nx, ny);
                 }
             }
