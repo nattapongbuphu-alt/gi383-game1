@@ -8,12 +8,14 @@ public class MazeGenerator : MonoBehaviour
 
     public GameObject wallPrefab;
     public GameObject floorPrefab;
+    public GameObject exitPrefab;
 
     private int[,] maze;
 
     void Start()
     {
         GenerateMaze();
+        CreateTopExit();
         DrawMaze();
     }
 
@@ -93,6 +95,52 @@ public class MazeGenerator : MonoBehaviour
             {
                 GameObject prefab = maze[x, y] == 1 ? wallPrefab : floorPrefab;
                 Instantiate(prefab, new Vector2(x, y), Quaternion.identity, transform);
+            }
+        }
+    }
+
+    void CreateTopExit()
+    {
+        // เลือกตำแหน่งสุ่มที่ด้านบนสุดของแมพ (y = height - 1)
+        // ข้ามหน่วยเดียว (ตำแหน่ง 0 และ width - 1 เป็นกำแพง)
+        int randomX = Random.Range(1, width - 1);
+        
+        // ตรวจสอบและหากำแพงอื่นใกล้เคียงเพื่อสร้างทางออกที่เหมาะสม
+        if (randomX % 2 == 0)
+        {
+            randomX--; // ทำให้เป็นเลขคี่เพื่อความเข้ากัน
+        }
+        
+        // สร้างทางออกด้านบน (เลยขอบกำแพง 1 ช่อง)
+        int topY = height; // ขึ้นไปด้านบน 1 ช่อง
+        maze[randomX, topY - 1] = 0; // ตำแหน่งในแมพ (ช่องก่อนหน้า)
+        
+        // ขยายทางออกเล็กน้อยเพื่อให้เห็นชัดเจน
+        if (randomX + 1 < width - 1)
+        {
+            maze[randomX + 1, topY - 1] = 0;
+        }
+        if (randomX - 1 > 0)
+        {
+            maze[randomX - 1, topY - 1] = 0;
+        }
+        
+        // สร้าง Exit Prefab 3 ตัว ให้เท่ากับจำนวนบล็อกทางออก
+        if (exitPrefab != null)
+        {
+            // Exit ตรงกลาง
+            Instantiate(exitPrefab, new Vector2(randomX, topY), Quaternion.identity, transform);
+            
+            // Exit ด้านซ้าย
+            if (randomX - 1 > 0)
+            {
+                Instantiate(exitPrefab, new Vector2(randomX - 1, topY), Quaternion.identity, transform);
+            }
+            
+            // Exit ด้านขวา
+            if (randomX + 1 < width - 1)
+            {
+                Instantiate(exitPrefab, new Vector2(randomX + 1, topY), Quaternion.identity, transform);
             }
         }
     }
