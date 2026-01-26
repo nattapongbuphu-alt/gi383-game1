@@ -1333,7 +1333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GhostSpawner
   ghostPrefab: {fileID: 9140827592542739726, guid: 21846c8cf988123479b785b5b6272aaf, type: 3}
   spawnArea: {fileID: 369455432}
-  spawnInterval: 3
+  spawnInterval: 7
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1872,7 +1872,7 @@ MonoBehaviour:
   fillImage: {fileID: 1277831773}
   uiText: {fileID: 0}
   tmpText: {fileID: 0}
-  smoothSpeed: 10
+  smoothSpeed: 8
 --- !u!4 &1179873637
 Transform:
   m_ObjectHideFlags: 0
@@ -2222,7 +2222,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -581, y: 437}
-  m_SizeDelta: {x: 550.01, y: 75}
+  m_SizeDelta: {x: 550, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277831773
 MonoBehaviour:
@@ -2244,11 +2244,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1976689134689152661, guid: afa17476ffaab9a45a097c764b957ce7, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 0
+  m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -2665,7 +2665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FireOrbSpawner
   fireOrbPrefab: {fileID: 7345794426175961118, guid: 96502c70032e82445a1830a4af71c813, type: 3}
   spawnArea: {fileID: 369455432}
-  spawnInterval: 5
+  spawnInterval: 7
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
