@@ -7,6 +7,7 @@ public class PlayerShoot : MonoBehaviour
     public Transform firePoint;
     public float bulletSpeed = 10f;
     public float lightCost = 0.5f;
+    public AudioSource Shoot_Source;
 
     private PlayerLight playerLight;
 
@@ -37,6 +38,12 @@ public class PlayerShoot : MonoBehaviour
 
     void Shoot()
     {
+        // เล่นเสียง Shoot Effect
+        if (Shoot_Source != null)
+        {
+            Shoot_Source.PlayOneShot(Shoot_Source.clip);
+        }
+
         // ตำแหน่งเมาส์ในโลก
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

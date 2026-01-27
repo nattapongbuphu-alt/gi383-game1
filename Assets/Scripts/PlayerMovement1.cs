@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     public Animator animator;
+    public AudioSource SFX_Source;
     Vector2 movement;
 
     void Update()
@@ -12,26 +13,38 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        // เช็คว่ามีการเคลื่อนที่หรือไม่
+        // เธ•เธฃเธงเธเธชเธญเธเธงเนเธฒเธเธนเนเน€เธฅเนเธเธเธณเธฅเธฑเธเน€เธ”เธดเธเธซเธฃเธทเธญเนเธกเน
         if (movement.x != 0 || movement.y != 0)
         {
-            // อัปเดตทิศทางเฉพาะตอนกดปุ่ม
+            // เธเธณเธซเธเธ”เธ—เธดเธจเธ—เธฒเธเธ—เธตเนเธ•เธฑเธงเธฅเธฐเธเธฃ
             animator.SetFloat("Horizontal", movement.x);
             animator.SetFloat("Vertical", movement.y);
 
-            // ส่งค่า Speed เป็น 1 เพื่อให้เล่นท่าเดิน
+            // เธ•เธฑเนเธเธเนเธฒ Speed เน€เธเนเธ 1 เน€เธเธทเนเธญเนเธซเน Animation เน€เธฅเนเธเน€เธ”เธดเธ
             animator.SetFloat("Speed", 1f);
+
+            // เน€เธฅเนเธเน€เธชเธตเธขเธ Walking Effect
+            if (!SFX_Source.isPlaying)
+            {
+                SFX_Source.Play();
+            }
         }
         else
         {
-            // หากไม่กดปุ่มเลย (Idle) ให้ส่งค่า Speed เป็น 0 ทันที
+            // เธซเธขเธธเธ” Animation (Idle) เนเธฅเธฐเธ•เธฑเนเธเธเนเธฒ Speed เน€เธเนเธ 0 เธ—เธฑเธเธ—เธต
             animator.SetFloat("Speed", 0f);
+
+            // เธซเธขเธธเธ”เน€เธชเธตเธขเธ Walking Effect
+            if (SFX_Source.isPlaying)
+            {
+                SFX_Source.Stop();
+            }
         }
     }
 
     void FixedUpdate()
     {
-        // สั่งให้ตัวละครเคลื่อนที่
+        // ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝะค๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝ๏ฟฝอน๏ฟฝ๏ฟฝ๏ฟฝ
         rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
     }
 }

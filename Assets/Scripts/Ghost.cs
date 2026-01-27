@@ -14,6 +14,9 @@ public class Ghost : MonoBehaviour
     [Header("Attack Settings")]
     public float damageLight = 1f;
     public float attackCooldown = 1.5f;
+    
+    [Header("Audio Settings")]
+    public AudioSource ChaseSFX_Source;
 
     private Transform player;
     private Vector2 wanderDirection;
@@ -44,6 +47,12 @@ public class Ghost : MonoBehaviour
             }
 
             rb.linearVelocity = moveDir * chaseSpeed;
+
+            // เล่นเสียง Chase Effect
+            if (ChaseSFX_Source != null && !ChaseSFX_Source.isPlaying)
+            {
+                ChaseSFX_Source.Play();
+            }
         }
         else
         {
@@ -53,6 +62,12 @@ public class Ghost : MonoBehaviour
             }
 
             rb.linearVelocity = wanderDirection * normalSpeed;
+
+            // หยุดเสียง Chase Effect
+            if (ChaseSFX_Source != null && ChaseSFX_Source.isPlaying)
+            {
+                ChaseSFX_Source.Stop();
+            }
         }
     }
 

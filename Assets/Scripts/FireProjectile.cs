@@ -43,6 +43,11 @@ public class FireProjectile : MonoBehaviour
         {
             Destroy(gameObject); // ลูกไฟชนกำแพงแล้วทำลายตัวเอง
         }
+        else if (collision.CompareTag("Floor"))
+        {
+            // ลูกไฟหายเมื่อผ่านพื้นที่ที่มี tag "Floor"
+            Destroy(gameObject);
+        }
     }
 
 }
