@@ -34,7 +34,7 @@ public class FireProjectile : MonoBehaviour
             GhostHealth ghost = collision.GetComponent<GhostHealth>();
             if (ghost != null)
             {
-                ghost.TakeDamage(1f); // ดาเมจต่อนัด
+                ghost.TakeDamage(1f, true); // ดาเมจต่อนัด (จากการยิง)
             }
 
             Destroy(gameObject); // ลูกไฟหาย

@@ -4,6 +4,7 @@ public class GhostHealth : MonoBehaviour
 {
     public float maxHP = 3f;
     private float currentHP;
+    private bool killedByShot = false;
 
     [Header("Drop Settings")]
     public GameObject lightDropPrefab;
@@ -13,11 +14,20 @@ public class GhostHealth : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
+        killedByShot = false;
     }
 
+    // default: not from shot
     public void TakeDamage(float damage)
     {
+        TakeDamage(damage, false);
+    }
+
+    // call with byShot=true when damage comes from player's projectile
+    public void TakeDamage(float damage, bool byShot)
+    {
         currentHP -= damage;
+        if (byShot) killedByShot = true;
 
         if (currentHP <= 0f)
         {
@@ -28,6 +38,12 @@ public class GhostHealth : MonoBehaviour
     void Die()
     {
         DropLight();
+        if (killedByShot)
+        {
+            var counter = FindObjectOfType<KillCounter>();
+            if (counter != null)
+                counter.AddKill();
+        }
         Destroy(gameObject);
     }
 

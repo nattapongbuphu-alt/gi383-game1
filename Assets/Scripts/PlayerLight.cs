@@ -39,8 +39,16 @@ public class PlayerLight : MonoBehaviour
     void Die()
     {
         Debug.Log("GAME OVER");
-        Time.timeScale = 0f; // หยุดเกม
-        // ต่อไปค่อยใส่ UI Game Over
+        // Show Game Over UI if available (falls back to pausing time)
+        var ui = FindObjectOfType<UI>();
+        if (ui != null)
+        {
+            ui.ShowGameOver();
+        }
+        else
+        {
+            Time.timeScale = 0f; // หยุดเกม
+        }
     }
 
     public bool HasEnoughLight(float cost)
