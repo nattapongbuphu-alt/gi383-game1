@@ -5,10 +5,12 @@ public class MazeGenerator : MonoBehaviour
 {
     public int width = 21;
     public int height = 21;
+    public float cellSize = 1f;
 
     public GameObject wallPrefab;
     public GameObject floorPrefab;
     public GameObject exitPrefab;
+
     
     // จำนวนการเปิดผนังเพิ่มเติมเพื่อให้มีทางเลือกหลายทางไปยังทางออก
     public int extraOpenings = 8;
@@ -17,6 +19,7 @@ public class MazeGenerator : MonoBehaviour
     public float maxDeadEndRatio = 0.08f;
 
     private int[,] maze;
+    public int[,] MazeData => maze;
 
     void Start()
     {
