@@ -3,17 +3,18 @@ using System.Collections;
 
 public class Ghost : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public LayerMask wallLayer;
     public float normalSpeed = 1.5f;
     public float chaseSpeed = 3.5f;
     public float detectRadius = 4f;
     public float wanderTime = 2f;
+    public float wallCheckDistance = 0.5f;
+    
+    [Header("Attack Settings")]
     public float damageLight = 1f;
     public float attackCooldown = 1.5f;
-    public float wallCheckDistance = 0.5f;
-   
 
-    private Rigidbody2D rb;
     private Transform player;
     private Vector2 wanderDirection;
     private bool isStunned = false;
@@ -21,13 +22,15 @@ public class Ghost : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         StartCoroutine(Wander());
     }
 
     void FixedUpdate()
     {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null) return;
+
         Vector2 moveDir;
 
         if (CanSeePlayer())

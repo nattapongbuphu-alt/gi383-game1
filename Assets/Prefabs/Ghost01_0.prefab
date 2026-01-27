@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3973531473729395477}
   - component: {fileID: -6337459608482502249}
   - component: {fileID: -5048390915675316770}
+  - component: {fileID: 6044788096198773976}
+  - component: {fileID: 2458808088181452296}
   m_Layer: 0
   m_Name: Ghost01_0
   m_TagString: Ghost
@@ -234,9 +236,9 @@ MonoBehaviour:
   chaseSpeed: 4
   detectRadius: 3
   wanderTime: 2
+  wallCheckDistance: 0.5
   damageLight: 1
   attackCooldown: 1.5
-  wallCheckDistance: 0.5
 --- !u!114 &-5048390915675316770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,3 +254,41 @@ MonoBehaviour:
   maxHP: 2
   lightDropPrefab: {fileID: 7345794426175961118, guid: 96502c70032e82445a1830a4af71c813, type: 3}
   dropChance: 1
+--- !u!95 &6044788096198773976
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140827592542739726}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9cf5b7545bdb8474baa4ed4a84b3369c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2458808088181452296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140827592542739726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 796b6a0327f58824dbda58a4f4a7512a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterWalkDown
+  walkDuration: 1
+  idleDuration: 1
+  rb: {fileID: 4026656886188264906}
+  anim: {fileID: 6044788096198773976}

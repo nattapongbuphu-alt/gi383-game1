@@ -935,7 +935,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 3699845782119165471, guid: d818e71bb03fb86439fa06a90ceba6f6, type: 3}
   floorPrefab: {fileID: 2742658440160176054, guid: 2b6b2683a9e63f44d948612766dc7aaa, type: 3}
   exitPrefab: {fileID: 7341517648210257664, guid: 232048196a8921f4ab3512eef011421e, type: 3}
-  extraOpenings: 1
+  extraOpenings: 50
   maxDeadEndRatio: 0.08
 --- !u!4 &661827875
 Transform:
@@ -1471,7 +1471,7 @@ MonoBehaviour:
   tailLength: 5
   minDistanceFromPlayer: 5
   spawnArea: {fileID: 369455432}
-  spawnInterval: 3.5
+  spawnInterval: 4
   spawnAttempts: 10
   wallLayer:
     serializedVersion: 2
@@ -2822,7 +2822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2289e3540755b84e8f1ee7b43e90c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 4
+  moveSpeed: 5
   rb: {fileID: 1334988664}
   animator: {fileID: 1334988668}
 --- !u!95 &1334988668
@@ -2887,7 +2887,7 @@ MonoBehaviour:
   orbLifetime: 10
   minDistanceFromPlayer: 5
   spawnArea: {fileID: 369455432}
-  spawnInterval: 6
+  spawnInterval: 5
   wallLayer:
     serializedVersion: 2
     m_Bits: 64
