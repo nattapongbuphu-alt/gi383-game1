@@ -1,3 +1,5 @@
+using Unity.Services.Core;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -7,6 +9,19 @@ public class UI : MonoBehaviour
     public GameObject winPanel;
     public string playerTag = "Player";
     public bool pauseOnWin = true;
+    private static int gameOver = 0;
+
+    // retry count is maintained for the entire session and should not reset
+    // when the scene reloads, so make it static and keep the UI object alive.
+    public static int retry = 1;
+    public bool isGameOver = false;
+    public static UI instance;
+
+    void Awake()
+    {
+        // simple singleton reference for convenience; instances are recreated with each scene
+        instance = this;
+    }
 
     [Header("Win Panel Time Display")]
     public Text uiTimeText; // optional legacy UI.Text
@@ -22,6 +37,14 @@ public class UI : MonoBehaviour
     {
         if (winPanel != null)
             winPanel.SetActive(false);
+
+        Initialize();
+    }
+
+    private async void Initialize() 
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
     }
 
     public void ShowWin()
@@ -85,12 +108,29 @@ public class UI : MonoBehaviour
     public void ShowGameOver()
     {
         UpdateGameOverLabel();
-
+        // removed obsolete MainMenu.started check, field no longer exists
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
 
         if (pauseOnGameOver)
             Time.timeScale = 0f;
+        
+        
+        // every time we show the game over panel we consider that the
+        // player has just used up another attempt.  the counter is kept
+        // across scene loads and will only reset when the application quits.
+        // retry++;
+        Debug.Log("Retry: " + retry);
+
+        isGameOver = true;
+        gameOver++;
+        Debug.Log("GameOver: " + gameOver);
+        CustomEvent exampleEvent = new CustomEvent("Game_Data")
+        {
+            {"FailureRate", gameOver},
+            {"RetryRate", retry}
+        };
+        AnalyticsService.Instance.RecordEvent(exampleEvent);
     }
 
     public void HideGameOver()
@@ -100,6 +140,9 @@ public class UI : MonoBehaviour
 
         if (pauseOnGameOver)
             Time.timeScale = 1f;
+
+        // allow UI to be reused; clear flag so additional gameovers are handled
+        isGameOver = false;
     }
 
     void UpdateGameOverLabel()

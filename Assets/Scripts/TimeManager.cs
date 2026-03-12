@@ -5,13 +5,21 @@ public class TimeManager : MonoBehaviour
 {
     public float timeLimit = 300f; // เวลาทั้งหมด (วินาที)
     public TextMeshProUGUI timerText;
+    public static TimeManager instance;
+    public float currentTime;
+    public float timeCount = 0f;
 
-    private float currentTime;
     private bool isGameOver = false;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
         currentTime = timeLimit;
+        timeCount = Time.time;
     }
 
     void Update()
@@ -48,6 +56,14 @@ public class TimeManager : MonoBehaviour
         timerText.text = "Time: 0";
 
         Debug.Log("GAME OVER - TIME UP");
-        Time.timeScale = 0f; // หยุดเกม
+        var ui = FindObjectOfType<UI>();
+        if (ui != null)
+        {
+            ui.ShowGameOver();
+        }
+        else
+        {
+            Time.timeScale = 0f; // หยุดเกม
+        }
     }
 }

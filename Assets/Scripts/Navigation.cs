@@ -1,3 +1,5 @@
+using Unity.Services.Core;
+using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
@@ -6,6 +8,7 @@ using UnityEditor;
 
 public class Navigation : MonoBehaviour
 {
+
     [Tooltip("Name of the main menu scene (used by Back button)")]
     public string mainMenuScene = "MainMenu";
 
@@ -17,9 +20,35 @@ public class Navigation : MonoBehaviour
     [Tooltip("AudioSource for back button sound effects")]
     private AudioSource backSFX_Source;
 
+    // public bool putButton = false;
+
+    void Start()
+    {
+        Initialize();
+    }
+
+    private async void Initialize() 
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
+    }
+
     // Load scene by name (assignable from Button OnClick)
     public void LoadScene(string sceneName)
-    {
+    {  
+        if (UI.instance.isGameOver)
+        {
+            // retry is now a static member, use type name
+            UI.retry++;
+            Debug.Log("Retry: " + UI.retry);
+        }
+        // putbotton = true;
+        CustomEvent exampleEvent = new CustomEvent("Game_Data")
+        {
+            {"RetryRate", UI.retry}
+        };
+        AnalyticsService.Instance.RecordEvent(exampleEvent);
+        
         PlayButtonSound();
         if (string.IsNullOrEmpty(sceneName)) return;
         SceneManager.LoadScene(sceneName);

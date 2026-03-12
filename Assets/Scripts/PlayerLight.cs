@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+﻿using Unity.Services.Core;
+using Unity.Services.Analytics;
+using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class PlayerLight : MonoBehaviour
 {
+
+
     public Light2D light2D;
 
     public float maxRadius = 6f;
@@ -12,6 +16,13 @@ public class PlayerLight : MonoBehaviour
     void Start()
     {
         UpdateLight();
+        Initialize();
+    }
+
+    private async void Initialize() 
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
     }
 
     public void AddLight(float value)
@@ -38,6 +49,13 @@ public class PlayerLight : MonoBehaviour
 
     void Die()
     {
+        float d = Time.time - TimeManager.instance.timeCount;
+        Debug.Log("Time: " + d);
+        CustomEvent exampleEvent = new CustomEvent("Game_Data")
+        {
+            {"Time", d}
+        };
+        AnalyticsService.Instance.RecordEvent(exampleEvent);
         Debug.Log("GAME OVER");
         // Show Game Over UI if available (falls back to pausing time)
         var ui = FindObjectOfType<UI>();

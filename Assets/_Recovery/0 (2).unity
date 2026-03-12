@@ -2505,7 +2505,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1479918813}
         m_TargetAssemblyTypeName: Navigation, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: LoadScene01
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3857,7 +3857,7 @@ MonoBehaviour:
   winPanel: {fileID: 569919381}
   playerTag: Player
   pauseOnWin: 1
-  isGameOver: 0
+  haswin: 0
   uiTimeText: {fileID: 0}
   tmpTimeText: {fileID: 1561473595}
   uiKillsText: {fileID: 0}
@@ -5002,7 +5002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   timeLimit: 300
   timerText: {fileID: 1086533013}
-  currentTime: 0
 --- !u!1 &2095304125
 GameObject:
   m_ObjectHideFlags: 0

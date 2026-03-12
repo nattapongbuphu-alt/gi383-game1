@@ -879,11 +879,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: a741784b-6dd2-44d4-b3ec-a039d6cb05ee
+  cloudProjectId: 875ddcae-9fed-4bb3-b54f-b219263a9d27
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: GI383 Game1 2026-01-18_12-40-06
-  organizationId: nattapongbuphu
+  projectName: gi383-game1
+  organizationId: lnwkaree12
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

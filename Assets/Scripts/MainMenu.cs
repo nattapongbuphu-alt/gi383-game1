@@ -3,6 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public static MainMenu instance;
+    public string sceneMainMenu = "MainMenu";
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     [Tooltip("Panel that contains the main menu UI (enable/disable)")]
     public GameObject mainMenuPanel;
 
@@ -18,15 +26,21 @@ public class MainMenu : MonoBehaviour
             mainMenuPanel.SetActive(true);
 
         Time.timeScale = 1f;
+
+        // Scene currentScene = SceneManager.GetActiveScene();
     }
 
     // Called by UI Start button
     public void StartGame()
     {
         PlayButtonSound();
+
+        // previously tracked via `start` field; no longer used
+        // start = 1;
         
         if (mainMenuPanel != null)
             mainMenuPanel.SetActive(false);
+        
 
         if (!string.IsNullOrEmpty(firstSceneName))
         {

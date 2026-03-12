@@ -176,7 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Replay
+  m_text: Restart
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86ea5952d331df640b37e7f540121976, type: 2}
   m_sharedMaterial: {fileID: -1617836015092061922, guid: 86ea5952d331df640b37e7f540121976, type: 2}
@@ -3857,7 +3857,6 @@ MonoBehaviour:
   winPanel: {fileID: 569919381}
   playerTag: Player
   pauseOnWin: 1
-  isGameOver: 0
   uiTimeText: {fileID: 0}
   tmpTimeText: {fileID: 1561473595}
   uiKillsText: {fileID: 0}
@@ -5002,7 +5001,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   timeLimit: 300
   timerText: {fileID: 1086533013}
-  currentTime: 0
 --- !u!1 &2095304125
 GameObject:
   m_ObjectHideFlags: 0
