@@ -5,13 +5,16 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerLight : MonoBehaviour
 {
-
+    public string fail = "Ghost";
 
     public Light2D light2D;
 
     public float maxRadius = 6f;
     public float minRadius = 0f;   // 0 = ตาย
     public float currentRadius = 3f;
+    public float d;
+
+    public static bool isGameOver = false;
 
     void Start()
     {
@@ -49,15 +52,13 @@ public class PlayerLight : MonoBehaviour
 
     void Die()
     {
-        float d = Time.time - TimeManager.instance.timeCount;
-        Debug.Log("Time: " + d);
-        CustomEvent exampleEvent = new CustomEvent("Game_Data")
-        {
-            {"Time", d}
-        };
-        AnalyticsService.Instance.RecordEvent(exampleEvent);
-        Debug.Log("GAME OVER");
-        // Show Game Over UI if available (falls back to pausing time)
+        d = Time.time - TimeManager.instance.timeCount;
+        // Debug.Log("Time: " + d);
+        
+        // Debug.Log("GAME OVER");
+
+        isGameOver = true;
+
         var ui = FindObjectOfType<UI>();
         if (ui != null)
         {
@@ -65,7 +66,7 @@ public class PlayerLight : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 0f; // หยุดเกม
+            Time.timeScale = 0f;
         }
     }
 

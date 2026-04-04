@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.Services.Core;
+using Unity.Services.Analytics;
+using UnityEngine;
 using TMPro;
 
 public class TimeManager : MonoBehaviour
@@ -8,18 +10,28 @@ public class TimeManager : MonoBehaviour
     public static TimeManager instance;
     public float currentTime;
     public float timeCount = 0f;
+    public string fail = "TimeUp";
+    public float time;
 
-    private bool isGameOver = false;
+    public static bool isGameOver = false;
 
     void Awake()
     {
         instance = this;
+        time = timeLimit;
     }
 
     void Start()
     {
         currentTime = timeLimit;
         timeCount = Time.time;
+        Initialize();
+    }
+
+    private async void Initialize() 
+    {
+        await UnityServices.InitializeAsync();
+        AnalyticsService.Instance.StartDataCollection();
     }
 
     void Update()
@@ -55,7 +67,9 @@ public class TimeManager : MonoBehaviour
         currentTime = 0;
         timerText.text = "Time: 0";
 
-        Debug.Log("GAME OVER - TIME UP");
+        // Debug.Log("GAME OVER - TIME UP");
+
+        // UI.ShowGameOver() will increment the game over counter so do not double count.
         var ui = FindObjectOfType<UI>();
         if (ui != null)
         {

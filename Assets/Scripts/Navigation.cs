@@ -20,6 +20,13 @@ public class Navigation : MonoBehaviour
     [Tooltip("AudioSource for back button sound effects")]
     private AudioSource backSFX_Source;
 
+    public TimeManager timeManager;
+    public PlayerLight playerLight;
+
+    public int retry = 0;
+    public string fail;
+    
+
     // public bool putButton = false;
 
     void Start()
@@ -33,21 +40,59 @@ public class Navigation : MonoBehaviour
         AnalyticsService.Instance.StartDataCollection();
     }
 
-    // Load scene by name (assignable from Button OnClick)
     public void LoadScene(string sceneName)
-    {  
-        if (UI.instance.isGameOver)
+    {   
+        float finalTime = 0f;
+        if(PlayerLight.isGameOver == true)
         {
-            // retry is now a static member, use type name
-            UI.retry++;
-            Debug.Log("Retry: " + UI.retry);
+            fail = "Ghost";
+            // Debug.Log("Fail: " + fail);
+            PlayerLight.isGameOver = false;
+            finalTime = playerLight.d;
+            // Debug.Log("Final Time: " + finalTime);
         }
-        // putbotton = true;
-        CustomEvent exampleEvent = new CustomEvent("Game_Data")
+
+        if (TimeManager.isGameOver == true)
         {
-            {"RetryRate", UI.retry}
-        };
+            fail = "TimeUp";
+            // Debug.Log("Fail: " + fail);
+            TimeManager.isGameOver = false;
+            finalTime = timeManager.time;
+        }
+
+        Debug.Log("Fail: " + fail);
+        Debug.Log("Final Time: " + finalTime); 
+
+        int finalGameOver = UI.instance.gameOver;
+        Debug.Log("Final GameOver: " + finalGameOver);
+        retry++;
+        Debug.Log("Retry: " + retry);
+        CustomEvent exampleEvent = new CustomEvent("Game_Data07")
+        {    
+            {"RetryRate", retry},
+            {"fail", fail},
+            {"Time", finalTime},
+            {"FailureRate", finalGameOver}
+        };   
         AnalyticsService.Instance.RecordEvent(exampleEvent);
+
+        PlayButtonSound();
+        if (string.IsNullOrEmpty(sceneName)) return;
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void LoadScene01(string sceneName)
+    {  
+        // if (UI.instance.isGameOver)
+        // {
+        //     UI.replay++;
+        //     Debug.Log("Replay: " + UI.replay);
+        // }
+        // CustomEvent exampleEvent = new CustomEvent("Game_Data01")
+        // {
+        //     {"ReplayRate", UI.replay}
+        // };
+        // AnalyticsService.Instance.RecordEvent(exampleEvent);
         
         PlayButtonSound();
         if (string.IsNullOrEmpty(sceneName)) return;
@@ -101,6 +146,7 @@ public class Navigation : MonoBehaviour
     // Quit application (works in editor and build)
     public void Quit()
     {
+
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else

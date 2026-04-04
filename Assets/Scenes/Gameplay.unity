@@ -1709,6 +1709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dcc6c6418ba014da5f886232915190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fail: Ghost
   light2D: {fileID: 687202225}
   maxRadius: 6
   minRadius: 0
@@ -2433,7 +2434,7 @@ GameObject:
   - component: {fileID: 1176545026}
   - component: {fileID: 1176545029}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Replay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2505,7 +2506,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1479918813}
         m_TargetAssemblyTypeName: Navigation, Assembly-CSharp
-        m_MethodName: LoadScene
+        m_MethodName: LoadScene01
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3293,6 +3294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dcc6c6418ba014da5f886232915190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLight
+  fail: Ghost
   light2D: {fileID: 1208116682}
   maxRadius: 10
   minRadius: 0
@@ -3857,7 +3859,7 @@ MonoBehaviour:
   winPanel: {fileID: 569919381}
   playerTag: Player
   pauseOnWin: 1
-  isGameOver: 0
+  gameOver: 0
   uiTimeText: {fileID: 0}
   tmpTimeText: {fileID: 1561473595}
   uiKillsText: {fileID: 0}
@@ -3894,6 +3896,8 @@ MonoBehaviour:
   mainMenuScene: MainMenu
   buttonSFX_Source: {fileID: 0}
   backSFX_Source: {fileID: 0}
+  timeManager: {fileID: 2094779113}
+  playerLight: {fileID: 1334988661}
 --- !u!114 &1479918814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4433,7 +4437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Restart
+  m_text: Retry
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86ea5952d331df640b37e7f540121976, type: 2}
   m_sharedMaterial: {fileID: -1617836015092061922, guid: 86ea5952d331df640b37e7f540121976, type: 2}
@@ -4527,7 +4531,7 @@ GameObject:
   - component: {fileID: 1776702511}
   - component: {fileID: 1776702514}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Retry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5000,9 +5004,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f4c7294dac8bc48837090e5d2de55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
-  timeLimit: 300
+  timeLimit: 30
   timerText: {fileID: 1086533013}
   currentTime: 0
+  timeCount: 0
+  fail: TimeUp
+  time: 0
 --- !u!1 &2095304125
 GameObject:
   m_ObjectHideFlags: 0
