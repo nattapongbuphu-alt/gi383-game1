@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class ExitTrigger : MonoBehaviour
 {
+    
     public UI uiManager;
     public string playerTag = "Player";
+    public static bool isWin = false;
+    
 
     void Reset()
     {
@@ -21,16 +24,22 @@ public class ExitTrigger : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
             Win();
+        
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag))
             Win();
+        //t = Time.time - TimeManager.instance.timeCount;
+        //Debug.Log("Time: " + t);
     }
 
     void Win()
     {
+        isWin = true;
+       
+
         if (uiManager == null)
             uiManager = FindObjectOfType<UI>();
 
@@ -41,5 +50,6 @@ public class ExitTrigger : MonoBehaviour
 
         if (uiManager != null)
             uiManager.ShowWin();
+       
     }
 }

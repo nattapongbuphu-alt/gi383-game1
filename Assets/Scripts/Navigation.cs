@@ -22,10 +22,13 @@ public class Navigation : MonoBehaviour
 
     public TimeManager timeManager;
     public PlayerLight playerLight;
+    public ExitTrigger exitTrigger;
 
     public int retry = 0;
     public string fail;
-    
+    public string result;
+    public int replay = 0;
+
 
     // public bool putButton = false;
 
@@ -41,67 +44,152 @@ public class Navigation : MonoBehaviour
     }
 
     public void LoadScene(string sceneName)
-    {   
+    {
         float finalTime = 0f;
-        if(PlayerLight.isGameOver == true)
+        if (ExitTrigger.isWin == true)
         {
-            fail = "Ghost";
+            result = "Win";
+            replay ++;
+           
+            fail = "Non";
             // Debug.Log("Fail: " + fail);
-            PlayerLight.isGameOver = false;
-            finalTime = playerLight.d;
-            // Debug.Log("Final Time: " + finalTime);
+            ExitTrigger.isWin = false;
+            finalTime = UI.instance.t;
+        }
+        else
+        {
+            result = "Lose";
+            retry++;
+           
+            // Debug.Log("Fail: " + fail);
+            ExitTrigger.isWin = false;
+
+            if (PlayerLight.isGameOver == true)
+            {
+                fail = "Ghost";
+                // Debug.Log("Fail: " + fail);
+                PlayerLight.isGameOver = false;
+                finalTime = playerLight.d;
+                // Debug.Log("Final Time: " + finalTime);
+            }
+
+            if (TimeManager.isGameOver == true)
+            {
+                fail = "TimeUp";
+                // Debug.Log("Fail: " + fail);
+                TimeManager.isGameOver = false;
+                finalTime = timeManager.time;
+            }
+
         }
 
-        if (TimeManager.isGameOver == true)
-        {
-            fail = "TimeUp";
-            // Debug.Log("Fail: " + fail);
-            TimeManager.isGameOver = false;
-            finalTime = timeManager.time;
-        }
-
+        Debug.Log("Result: " + result);
+        Debug.Log("Retry: " + retry);
+        Debug.Log("Replay: " + replay);
         Debug.Log("Fail: " + fail);
         Debug.Log("Final Time: " + finalTime); 
 
         int finalGameOver = UI.instance.gameOver;
         Debug.Log("Final GameOver: " + finalGameOver);
-        retry++;
-        Debug.Log("Retry: " + retry);
+
         CustomEvent exampleEvent = new CustomEvent("Game_Data07")
-        {    
+        {
             {"RetryRate", retry},
+            {"ReplayRate", replay},
             {"fail", fail},
             {"Time", finalTime},
-            {"FailureRate", finalGameOver}
-        };   
+            {"FailureRate", finalGameOver},
+            {"result", result}
+        };
         AnalyticsService.Instance.RecordEvent(exampleEvent);
+        AnalyticsService.Instance.Flush();
 
         PlayButtonSound();
         if (string.IsNullOrEmpty(sceneName)) return;
         SceneManager.LoadScene(sceneName);
     }
 
-    public void LoadScene01(string sceneName)
-    {  
-        // if (UI.instance.isGameOver)
-        // {
-        //     UI.replay++;
-        //     Debug.Log("Replay: " + UI.replay);
-        // }
-        // CustomEvent exampleEvent = new CustomEvent("Game_Data01")
-        // {
-        //     {"ReplayRate", UI.replay}
-        // };
-        // AnalyticsService.Instance.RecordEvent(exampleEvent);
+    //public void LoadScene01(string sceneName)
+    //{  
+    //    // if (UI.instance.isGameOver)
+    //    // {
+    //    //     UI.replay++;
+    //    //     Debug.Log("Replay: " + UI.replay);
+    //    // }
+    //    // CustomEvent exampleEvent = new CustomEvent("Game_Data01")
+    //    // {
+    //    //     {"ReplayRate", UI.replay}
+    //    // };
+    //    // AnalyticsService.Instance.RecordEvent(exampleEvent);
         
-        PlayButtonSound();
-        if (string.IsNullOrEmpty(sceneName)) return;
-        SceneManager.LoadScene(sceneName);
-    }
+    //    PlayButtonSound();
+    //    if (string.IsNullOrEmpty(sceneName)) return;
+    //    SceneManager.LoadScene(sceneName);
+    //}
 
     // Load the configured main menu scene
     public void LoadMainMenu()
     {
+        Debug.Log(UI.instance.t);
+        float finalTime = 0f;
+        if (ExitTrigger.isWin == true)
+        {
+            result = "Win";
+            fail = "Non";
+            // Debug.Log("Fail: " + fail);
+            ExitTrigger.isWin = false;
+            finalTime = UI.instance.t;
+            Debug.Log("Final Time: " + finalTime);
+        }
+        else
+        {
+            result = "Lose";
+            // Debug.Log("Fail: " + fail);
+            ExitTrigger.isWin = false;
+
+            if (PlayerLight.isGameOver == true)
+            {
+                fail = "Ghost";
+                // Debug.Log("Fail: " + fail);
+                PlayerLight.isGameOver = false;
+                finalTime = playerLight.d;
+                // Debug.Log("Final Time: " + finalTime);
+            }
+
+            if (TimeManager.isGameOver == true)
+            {
+                fail = "TimeUp";
+                // Debug.Log("Fail: " + fail);
+                TimeManager.isGameOver = false;
+                finalTime = timeManager.time;
+            }
+
+        }
+
+
+
+
+        Debug.Log("Result: " + result);
+        Debug.Log("Retry: " + retry);
+        Debug.Log("Replay: " + replay);
+        Debug.Log("Fail: " + fail);
+        Debug.Log("Final Time: " + finalTime);
+
+        int finalGameOver = UI.instance.gameOver;
+        Debug.Log("Final GameOver: " + finalGameOver);
+
+        CustomEvent exampleEvent = new CustomEvent("Game_Data07")
+        {
+            {"RetryRate", retry},
+            {"ReplayRate", replay},
+            {"fail", fail},
+            {"Time", finalTime},
+            {"FailureRate", finalGameOver},
+            {"result", result}
+        };
+        AnalyticsService.Instance.RecordEvent(exampleEvent);
+        AnalyticsService.Instance.Flush();
+
         PlayBackSound();
         if (string.IsNullOrEmpty(mainMenuScene)) return;
         SceneManager.LoadScene(mainMenuScene);

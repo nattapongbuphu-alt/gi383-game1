@@ -10,6 +10,7 @@ public class UI : MonoBehaviour
     public string playerTag = "Player";
     public bool pauseOnWin = true;
     public int gameOver = 0;
+    public float t;
 
     // retry count is maintained for the entire session and should not reset
     // when the scene reloads.
@@ -77,6 +78,8 @@ public class UI : MonoBehaviour
 
         if (pauseOnWin)
             Time.timeScale = 0f;
+
+        t = Time.time - TimeManager.instance.timeCount;
     }
 
     public void HideWin()
@@ -101,6 +104,7 @@ public class UI : MonoBehaviour
 
         if (uiTimeText != null)
             uiTimeText.text = formatted;
+        
     }
 
     void UpdateWinKillLabel()
